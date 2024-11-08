@@ -127,7 +127,7 @@ const App = () => {
   }
 
   if (!playOnline) {
-    return <div className='flex justify-center items-center h-[90vh]'>
+    return <div className='flex justify-center items-center h-[90vh] flex-col'>
       <button className='bg-[#E4CA56] text-[60px] rounded-lg outline-none cursor-pointer text-black px-[10px] py-[6px] border-0 font-bold font-sans' onClick={playOnlineClick}>Play Online</button>
       <span>Note: To play with friends, paste the above URL in different tab and wait to be matched</span>
     </div>
