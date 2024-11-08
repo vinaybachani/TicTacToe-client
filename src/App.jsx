@@ -11,8 +11,6 @@ const renderFrom = [
   [7, 8, 9],
 ]
 const App = () => {
-  console.log("backend url", import.meta.env.VITE_BACKEND_URL);
-
   const [gameState, setGameState] = useState(renderFrom);
   const [currentPlayer, setCurrentPlayer] = useState('circle');
   const [finishedState, setFinishedState] = useState(false);
@@ -131,6 +129,7 @@ const App = () => {
   if (!playOnline) {
     return <div className='flex justify-center items-center h-[90vh]'>
       <button className='bg-[#E4CA56] text-[60px] rounded-lg outline-none cursor-pointer text-black px-[10px] py-[6px] border-0 font-bold font-sans' onClick={playOnlineClick}>Play Online</button>
+      <span>Note: To play with friends, paste the above URL in different tab and wait to be matched</span>
     </div>
   }
 
