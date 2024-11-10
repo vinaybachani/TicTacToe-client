@@ -20,6 +20,7 @@ const App = () => {
   const [playerName, setPlayerName] = useState("");
   const [opponentName, setOpponentName] = useState("");
   const [playingAs, setPlayingAs] = useState(null);
+  const [isConnecting, setIsConnecting] = useState(false);
 
   const checkOnWinner = () => {
     //row dynamic if any of all the row matches
@@ -98,6 +99,7 @@ const App = () => {
   })
 
   socket?.on('connect', () => {
+    setIsConnecting(false);
     setPlayOnline(true);
   });
 
@@ -117,6 +119,7 @@ const App = () => {
 
     const userName = result.value;
     setPlayerName(userName);
+    setIsConnecting(true);
     const newSocket = io(import.meta.env.VITE_BACKEND_URL, {
       autoConnect: true
     });
@@ -128,14 +131,23 @@ const App = () => {
 
   if (!playOnline) {
     return <div className='flex justify-center items-center h-[90vh] flex-col gap-2 text-gray-300 font-sans'>
-      <button className='bg-[#E4CA56] text-[60px] rounded-lg outline-none cursor-pointer text-black px-[10px] py-[6px] border-0 font-bold font-sans' onClick={playOnlineClick}>Play Online</button>
+      <button className='bg-[#E4CA56] text-[24px] md:text-[60px] rounded-lg outline-none cursor-pointer text-black px-[10px] py-[6px] border-0 font-bold font-sans' onClick={playOnlineClick}>Play Online</button>
       <span>Note: To play with friends, paste the above URL in different tab and wait to be matched</span>
     </div>
   }
 
+  if (isConnecting) {
+    return (
+      <div className='flex justify-center items-center h-[90vh] flex-col gap-2 text-gray-300 font-sans'>
+        <p>Connecting...</p>
+      </div>
+    );
+  }
+
+
   if (playOnline && !opponentName) {
     return (
-      <div className='flex items-center justify-center w-full h-[90vh] text-[44px]'>
+      <div className='flex items-center justify-center w-full h-[90vh] text-[24px] md:text-[44px]'>
         <p>Waiting for opponent...</p>
       </div>
     )
