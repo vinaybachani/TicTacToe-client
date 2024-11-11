@@ -98,8 +98,28 @@ const App = () => {
     setCurrentPlayer(data.state.sign === "circle" ? "cross" : "circle");
   })
 
+  const playOnlineClick = async () => {
+
+    const result = await takePlayerName();
+    if (!result.isConfirmed) return;
+
+    const userName = result.value;
+    setPlayerName(userName);
+    setIsConnecting(true);
+    console.log(isConnecting);
+    const newSocket = io(import.meta.env.VITE_BACKEND_URL, {
+      autoConnect: true
+    });
+    newSocket?.emit("request_to_play", {
+      playerName: userName
+    })
+    setSocket(newSocket);
+  }
+
   socket?.on('connect', () => {
-    setIsConnecting(false);
+    setTimeout(() => {
+      setIsConnecting(false);
+    }, 3000);
     setPlayOnline(true);
   });
 
@@ -112,22 +132,6 @@ const App = () => {
     setOpponentName(data.opponentName);
   });
 
-  const playOnlineClick = async () => {
-
-    const result = await takePlayerName();
-    if (!result.isConfirmed) return;
-
-    const userName = result.value;
-    setPlayerName(userName);
-    setIsConnecting(true);
-    const newSocket = io(import.meta.env.VITE_BACKEND_URL, {
-      autoConnect: true
-    });
-    newSocket?.emit("request_to_play", {
-      playerName: userName
-    })
-    setSocket(newSocket);
-  }
 
   if (!playOnline) {
     return <div className='flex justify-center items-center h-[90vh] flex-col gap-2 text-gray-300 font-sans'>
