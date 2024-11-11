@@ -106,7 +106,6 @@ const App = () => {
     const userName = result.value;
     setPlayerName(userName);
     setIsConnecting(true);
-    console.log(isConnecting);
     const newSocket = io(import.meta.env.VITE_BACKEND_URL, {
       autoConnect: true
     });
@@ -151,8 +150,9 @@ const App = () => {
 
   if (playOnline && !opponentName) {
     return (
-      <div className='flex items-center justify-center w-full h-[90vh] text-[24px] md:text-[44px]'>
+      <div className='flex flex-col gap-2 items-center justify-center w-full h-[90vh] text-[24px] md:text-[44px]'>
         <p>Waiting for opponent...</p>
+        <span className='!text-[15px] font-sans text-center'>Note: You can either wait for an opponent to join or share the link above to play with a friend.</span>
       </div>
     )
   }
